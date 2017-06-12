@@ -71,12 +71,57 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
+    public boolean isUserExist(User user) {
+        manager = ENTITY_MANAGER_PERSISTENCE.createEntityManager();
+        EntityTransaction transaction = null;
+
+        try {
+            transaction = manager.getTransaction();
+            transaction.begin();
+            Query query = manager.createQuery("from UserInfo WHERE name=:userName");
+            query.setParameter("userName", user.getUserInfo().getName());
+            if (query.getResultList().isEmpty()) {
+                return false;
+            }
+
+            return true;
+
+        } catch (Exception exp) {
+            System.out.println("Error during transaction, performing rollback\n" + exp);
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            return false;
+        } finally {
+            manager.close();
+        }
+    }
+
     public void updateUser(User user) {
         manager = ENTITY_MANAGER_PERSISTENCE.createEntityManager();
         EntityTransaction transaction = null;
 
         try {
             manager.merge(user);
+
+        } catch (Exception exp) {
+            System.out.println("Error during transaction, performing rollback\n" + exp);
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            manager.close();
+        }
+    }
+
+    public void getUserInfo(User user) {
+        manager = ENTITY_MANAGER_PERSISTENCE.createEntityManager();
+        EntityTransaction transaction = null;
+
+        try {
+            Query query = manager.createQuery("from User WHERE id=:id");
+            query.setParameter("id", user.getId());
+            user = (User) query.getSingleResult();
 
         } catch (Exception exp) {
             System.out.println("Error during transaction, performing rollback\n" + exp);

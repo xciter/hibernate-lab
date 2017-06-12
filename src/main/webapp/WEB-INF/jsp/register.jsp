@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: PC
@@ -14,6 +15,7 @@
     <title>Register new user</title>
 </head>
 <body>
+<c:if test="${not empty message}"><p>${message}</p></c:if>
 <form:form method="POST" action="/register">
     <table>
         <tr>
