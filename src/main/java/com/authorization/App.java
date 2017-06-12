@@ -43,13 +43,14 @@ public class App {
 
             // Create a new User object
             User user = new User();
-            user.setId(id);
+//            user.setId(id);
             user.setPassword(password);
             UserInfo userInfo = new UserInfo();
             userInfo.setName(name);
             userInfo.setEmail(email);
             userInfo.setFirstName(firstName);
             userInfo.setSecondName(secondName);
+            userInfo.setUser(user);
             user.setUserInfo(userInfo);
 
             // Save the user object
